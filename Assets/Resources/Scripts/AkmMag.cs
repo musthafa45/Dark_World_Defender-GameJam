@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class AkmMag : MonoBehaviour
 {
-     public int AkmAmmoToAdd;
+    public int AkmAmmoToAdd;
     public AudioSource AmmoSource;
     public AudioClip Reload;
     void Start()

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFacing : MonoBehaviour
 {
-   public Camera camera;
+    public Camera camera;
     void Start()
     {
       
