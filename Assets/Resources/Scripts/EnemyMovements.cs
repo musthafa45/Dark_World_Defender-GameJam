@@ -24,7 +24,7 @@ public class EnemyMovements : MonoBehaviour
 
     void Update()
     {
-        EnemyRb.velocity = new Vector2(-EnemySpeed , EnemyRb.velocity.y);
+        EnemyRb.linearVelocity = new Vector2(-EnemySpeed , EnemyRb.linearVelocity.y);
         if(EnemySpeed !=0)
         {
             EnemyAnim.SetBool("isMoving",true);
