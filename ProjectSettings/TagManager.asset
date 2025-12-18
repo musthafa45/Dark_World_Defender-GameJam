@@ -2,19 +2,34 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Bullet
+  - House
+  - AKM_Mag
+  - SHOTGUN_Mag
+  - Enemy
+  - Ghost
+  - HomingBullet
+  - ShotGun
+  - AKM
+  - AttackBox
+  - ShotGunBullet
+  - BAT
+  - SHOTGUN
+  - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - SideWalls
+  - Enemy
+  - PickUps
+  - Ground
   - 
   - 
   - 
@@ -41,3 +56,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: forground
+    uniqueID: 906235253
+    locked: 0
+  m_RenderingLayers:
+  - Default

@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class PlayerMovements : MonoBehaviour
 {
    
@@ -14,7 +12,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Animator PlayerAnim;
-    bool isGrounded;
+    private bool isGrounded;
 
     public GameObject AttackBlood;
     public GameObject BloodStick;
@@ -51,7 +49,7 @@ public class PlayerMovements : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             isGrounded = false;
             PlayerAnim.SetBool("isMoving", false);
@@ -75,18 +73,7 @@ public class PlayerMovements : MonoBehaviour
         }
 
         Flip();
-        if (CurrentHealth <= 0)
-        {
-            rb.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            Destroy(gameObject);
-            Instantiate(DeadBody, transform.position, Quaternion.identity);
-            Destroy(DeadBody, 5f);
-            //restart.
 
-        }
-
-
-       
     }
    
     private void FixedUpdate()
@@ -119,7 +106,16 @@ public class PlayerMovements : MonoBehaviour
         BulletAudio.PlayOneShot(HurtClip);
         Instantiate(AttackBlood, transform.position, Quaternion.identity);
         CurrentHealth -= Damage;
-      
+
+        if (CurrentHealth <= 0) {
+            rb.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            gameObject.SetActive(false);
+            Instantiate(DeadBody, transform.position, Quaternion.identity);
+            Destroy(DeadBody, 5f);
+
+            //restart.
+        }
+
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {

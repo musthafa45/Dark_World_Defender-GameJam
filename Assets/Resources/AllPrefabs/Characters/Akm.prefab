@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986335619771046278}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.14, y: 0.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 986335620923142939}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &986335620923142940
 GameObject:
@@ -57,6 +57,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986335620923142940}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.0036584185, y: 0.0019345852, z: -0.2866217, w: 0.95803493}
   m_LocalPosition: {x: -0.17, y: -0.1, z: 0}
   m_LocalScale: {x: 0.3171644, y: 0.3171644, z: 0}
@@ -64,7 +65,6 @@ Transform:
   m_Children:
   - {fileID: 986335619771046277}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.338, y: 0.333, z: -33.313}
 --- !u!212 &986335620923142938
 SpriteRenderer:
@@ -83,6 +83,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -104,7 +109,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -951022191
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 906235253
   m_SortingLayer: 1
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 46fbce87497592b46afa13f932dd116a, type: 3}
@@ -130,9 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79fbfbd5db25b1e46a8a6079b29ae08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentAmmo: 0
   MaxAmmo: 20
-  ReloadAmmo: 20
   OffSet: 0
   Bullet: {fileID: 2934711680521301360, guid: 3e8502f2b61699046920430b3ebf340b, type: 3}
   ShotPoint: {fileID: 986335619771046277}
@@ -142,6 +146,8 @@ MonoBehaviour:
   PlayerAudio: {fileID: 3534785738474804567}
   PlayerAkmShotClip: {fileID: 8300000, guid: 57070af2cfa3095488b02d56ee73e4e9, type: 3}
   OutOfAmmoClip: {fileID: 8300000, guid: 6148a8dd42f3ffc42a103087a59b69f0, type: 3}
+  Gun: {fileID: 0}
+  playerMovements: {fileID: 0}
 --- !u!82 &3534785738474804567
 AudioSource:
   m_ObjectHideFlags: 0
@@ -153,6 +159,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3350311110812802471, guid: c081d4cf5ab71ce4792bc0b96189c8e6, type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
