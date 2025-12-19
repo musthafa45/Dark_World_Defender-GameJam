@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossEnemyMovements : MonoBehaviour
+public class BossEnemyMovements : MonoBehaviour,IHealth
 {
 
     [SerializeField] float moveSpeed;
@@ -86,5 +86,13 @@ public class BossEnemyMovements : MonoBehaviour
         Instantiate(AttackBlood, transform.position, Quaternion.identity);
         Health -= Damage;
        
+    }
+
+    public int GetMaxHealth() {
+        return Health;
+    }
+
+    public int GetCurrentHealth() {
+        return Health;
     }
 }

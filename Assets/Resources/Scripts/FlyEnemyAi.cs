@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyEnemyAi : MonoBehaviour
+public class FlyEnemyAi : MonoBehaviour,IHealth
 {
     [SerializeField] private Rigidbody2D EnemyRb;
     [SerializeField] float moveSpeed;
@@ -107,5 +107,13 @@ public class FlyEnemyAi : MonoBehaviour
         Instantiate(AttackBlood, transform.position, Quaternion.identity);
         Health -= Damage;
        
+    }
+
+    public int GetMaxHealth() {
+        return Health;
+    }
+
+    public int GetCurrentHealth() {
+        return Health;
     }
 }

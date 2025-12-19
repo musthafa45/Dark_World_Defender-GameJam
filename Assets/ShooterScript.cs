@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class ShooterScript : MonoBehaviour
 {
-  public GameObject Bullet;
+    public GameObject Bullet;
     public Transform start;
-    void Start()
-    {
-        
-    }
-
 
     void Update()
     {

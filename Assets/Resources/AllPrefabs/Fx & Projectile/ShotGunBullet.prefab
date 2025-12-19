@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FireSpeed: 0
+  BulletDamage: 3
 --- !u!70 &4498206930224413061
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
