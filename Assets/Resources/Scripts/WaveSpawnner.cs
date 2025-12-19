@@ -24,13 +24,16 @@ public class WaveSpawnner : MonoBehaviour
     private bool canSpawn = true;
     private bool canAnimate = false;
     
+    private bool isWaveFinished = false;
 
     private void Update()
     {
+        if(isWaveFinished) return; 
+
         currentWave = waves[currentWaveNumber];
         SpawnWave();
         GameObject[] totalEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (totalEnemies.Length == 0  )
+        if (totalEnemies.Length == 0)
         {
             if ( currentWaveNumber + 1 != waves.Length )
             {
@@ -45,11 +48,11 @@ public class WaveSpawnner : MonoBehaviour
             else
             {
                 Debug.Log("GameFinish");
+                isWaveFinished = true;
+                GameManager.Instance.PlayerWon();
             }
-
-
         }
-        
+
     }
 
     void SpawnNextWave()

@@ -12,10 +12,14 @@ public class Bullet : MonoBehaviour
     public AudioClip HurtClip;
     void Start()
     {
+
         BulletRb = GetComponent<Rigidbody2D>();
         Target = GameObject.FindGameObjectWithTag("Player");
-        Vector2 MoveDir = (Target.transform.position - transform.position).normalized * BulletSpeed;
-        BulletRb.linearVelocity = new Vector2(MoveDir.x, MoveDir.y);
+        if(Target != null) {
+            Vector2 MoveDir = (Target.transform.position - transform.position).normalized * BulletSpeed;
+            BulletRb.linearVelocity = new Vector2(MoveDir.x, MoveDir.y);
+        }
+        
         Destroy(this.gameObject,2);
     }
 
@@ -25,7 +29,7 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       else if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements))
+       else if (collision.gameObject.TryGetComponent(out PlayerMovements playerMovements))
         {
             BulletAudio.PlayOneShot(HurtClip);
             Destroy(gameObject);

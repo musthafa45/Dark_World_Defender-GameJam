@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerMovements : MonoBehaviour
 {
+
+    public static PlayerMovements Instance {  get; private set; }
    
     private float horizontal;
     private float speed = 5f;
@@ -26,6 +28,13 @@ public class PlayerMovements : MonoBehaviour
     public AudioClip HurtClip;
 
     PlayerAttack playerAttack;
+
+    public bool IsPlayerDead = false;
+
+    private void Awake() {
+        Instance = this;
+    }
+
     private void Start()
     {
         playerAttack = GetComponent<PlayerAttack>();
@@ -110,13 +119,21 @@ public class PlayerMovements : MonoBehaviour
         if (CurrentHealth <= 0) {
             rb.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             gameObject.SetActive(false);
-            Instantiate(DeadBody, transform.position, Quaternion.identity);
-            Destroy(DeadBody, 5f);
+            GameObject soulEffect = Instantiate(DeadBody, transform.position, Quaternion.identity);
+            Destroy(soulEffect, 5f);
 
-            //restart.
+            IsPlayerDead = true;
+
+            Invoke(nameof(Dead), 5f);
+            Dead();
         }
 
     }
+
+    private void Dead() {
+        GameManager.Instance.PlayerDead();
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("HomingBullet"))

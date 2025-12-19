@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6866469416596380483}
   - component: {fileID: 1035880350}
   - component: {fileID: 7653882851684440148}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: HomingBullet
   m_TagString: HomingBullet
   m_Icon: {fileID: 0}

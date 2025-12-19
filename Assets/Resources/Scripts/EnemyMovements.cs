@@ -17,10 +17,10 @@ public class EnemyMovements : MonoBehaviour,IHealth
     public AudioSource EnemyAudio;
     public AudioClip HurtClip;
 
-    public float timeBetweenAttack = 2f;
-    private float attackTimer = 0;
+    [Header("Attack Settings")]
+    [SerializeField] private float attackDelay = 3f;
+    private float nextAttackTime;
 
-    private bool canAttack = true;
 
     private void Awake()
     {
@@ -30,26 +30,18 @@ public class EnemyMovements : MonoBehaviour,IHealth
 
 
     private void Update() {
-        enemyRb.linearVelocity = new Vector2(-EnemySpeed, enemyRb.linearVelocity.y);
-        EnemyAnim.SetBool("isMoving", enemyRb.linearVelocity.magnitude > 0);
-
-
-        attackTimer += Time.deltaTime;
-        canAttack = false;
-        if(attackTimer >= timeBetweenAttack) {
-            canAttack = true;
-            attackTimer = 0;
+        if (!PlayerMovements.Instance.IsPlayerDead) {
+            enemyRb.linearVelocity = new Vector2(-EnemySpeed, enemyRb.linearVelocity.y);
         }
+        
+        EnemyAnim.SetBool("isMoving", enemyRb.linearVelocity.magnitude > 0 && !PlayerMovements.Instance.IsPlayerDead);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements))
-            {
-                EnemyAnim.SetTrigger("attack");
-                playerMovements.TakeDamage(1);
+        if (collision.gameObject.CompareTag("Player")) {
+            if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements)) {
+                TryAttackPlayer(playerMovements);
             }
         }
 
@@ -67,59 +59,53 @@ public class EnemyMovements : MonoBehaviour,IHealth
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if(canAttack) {
-            if (collision.gameObject.CompareTag("Player")) {
-                if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements)) {
-                    EnemyAnim.SetTrigger("attack");
-                    playerMovements.TakeDamage(1);
-                }
-            }
 
-            if (collision.gameObject.CompareTag("Bullet")) {
-                Destroy(collision.gameObject);
-                TakeDamage(1);
-            }
-            else if (collision.gameObject.CompareTag("ShotGunBullet")) {
-                Destroy(collision.gameObject);
-                TakeDamage(3);
-            }
-            else if (collision.gameObject.CompareTag("AttackBox")) {
-                TakeDamage(1);
+        if (collision.gameObject.CompareTag("Player")) {
+            if (collision.gameObject.TryGetComponent(out PlayerMovements playerMovements)) {
+                TryAttackPlayer(playerMovements);
             }
         }
-       
+
+        //if (collision.gameObject.CompareTag("Bullet")) {
+        //    Destroy(collision.gameObject);
+        //    TakeDamage(1);
+        //}
+        //else if (collision.gameObject.CompareTag("ShotGunBullet")) {
+        //    Destroy(collision.gameObject);
+        //    TakeDamage(3);
+        //}
+        //else if (collision.gameObject.CompareTag("AttackBox")) {
+        //    TakeDamage(1);
+        //}
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        if (canAttack) {
-            if (collision.gameObject.CompareTag("Player")) {
-                if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements)) {
-                    EnemyAnim.SetTrigger("attack");
-                    playerMovements.TakeDamage(1);
-                }
-            }
 
-            if (collision.gameObject.CompareTag("Bullet")) {
-                Destroy(collision.gameObject);
-                TakeDamage(1);
-            }
-            else if (collision.gameObject.CompareTag("ShotGunBullet")) {
-                Destroy(collision.gameObject);
-                TakeDamage(3);
-            }
-            else if (collision.gameObject.CompareTag("AttackBox")) {
-                TakeDamage(1);
+        if (collision.gameObject.CompareTag("Player")) {
+            if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements)) {
+                TryAttackPlayer(playerMovements);
             }
         }
+
+        //if (collision.gameObject.CompareTag("Bullet")) {
+        //    Destroy(collision.gameObject);
+        //    TakeDamage(1);
+        //}
+        //else if (collision.gameObject.CompareTag("ShotGunBullet")) {
+        //    Destroy(collision.gameObject);
+        //    TakeDamage(3);
+        //}
+        //else if (collision.gameObject.CompareTag("AttackBox")) {
+        //    TakeDamage(1);
+        //}
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player")) {
             if (collision.gameObject.TryGetComponent<PlayerMovements>(out PlayerMovements playerMovements)) {
-                EnemyAnim.SetTrigger("attack");
-                playerMovements.TakeDamage(1);
-
+                TryAttackPlayer(playerMovements);
             }
         }
 
@@ -153,6 +139,16 @@ public class EnemyMovements : MonoBehaviour,IHealth
             Instantiate(Rip, transform.position, Quaternion.identity);
         }
     }
+
+    private void TryAttackPlayer(PlayerMovements player) {
+        if (Time.time < nextAttackTime) return;
+
+        EnemyAnim.SetTrigger("attack");
+        player.TakeDamage(1);
+
+        nextAttackTime = Time.time + attackDelay;
+    }
+
 
     public int GetMaxHealth() {
         return Health;

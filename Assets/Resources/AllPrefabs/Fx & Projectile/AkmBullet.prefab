@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -3504095374963792827}
   - component: {fileID: 4498206930224413061}
   - component: {fileID: 2184916330924459761}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AkmBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -105,8 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a816a9e705b002748b628a5319f20557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireSpeed: 100
-  BulletDamage: 1
 --- !u!70 &4498206930224413061
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

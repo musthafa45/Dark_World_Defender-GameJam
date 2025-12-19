@@ -47,13 +47,11 @@ public class AKM: MonoBehaviour
 
         if(rotationZ < 89f && rotationZ > -89)//Flipping Gun
         {
-            Debug.Log("Right");
             Gun.flipY = false;
             isRight = true;
         }
         else
         {
-            Debug.Log("Left");
             Gun.flipY = true;
             isRight = false;
         }
