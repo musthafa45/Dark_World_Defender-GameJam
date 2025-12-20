@@ -91,7 +91,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxAmmo: 20
-  OffSet: 0
   Bullet: {fileID: 2934711680521301360, guid: 3e8502f2b61699046920430b3ebf340b, type: 3}
   ShotPoint: {fileID: 986335619771046277}
   StartBtwShot: 0.25
@@ -146,8 +145,6 @@ MonoBehaviour:
   PlayerAudio: {fileID: 3534785738474804567}
   PlayerAkmShotClip: {fileID: 8300000, guid: 57070af2cfa3095488b02d56ee73e4e9, type: 3}
   OutOfAmmoClip: {fileID: 8300000, guid: 6148a8dd42f3ffc42a103087a59b69f0, type: 3}
-  Gun: {fileID: 0}
-  playerMovements: {fileID: 0}
 --- !u!82 &3534785738474804567
 AudioSource:
   m_ObjectHideFlags: 0

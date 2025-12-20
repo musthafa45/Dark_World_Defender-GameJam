@@ -88,7 +88,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -356,7 +356,6 @@ MonoBehaviour:
   Bullet: {fileID: 1874584099453005520, guid: 358ebbb65cabf124b8803076228fb691, type: 3}
   BulletParent: {fileID: 5492175827304695593}
   FireRate: 1
-  player: {fileID: 4377006136207757148, guid: 5f29654fbad884b4c8288f3609416fca, type: 3}
   House: {fileID: 2823672503477254661, guid: 8b93dee44ffb24e479e501d284816968, type: 3}
   EnemyAnim: {fileID: 7516368361553885346}
   Health: 5
@@ -519,7 +518,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
