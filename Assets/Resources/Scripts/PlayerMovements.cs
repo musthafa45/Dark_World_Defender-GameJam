@@ -123,17 +123,21 @@ public class PlayerMovements : MonoBehaviour
         CurrentHealth -= Damage;
 
         if (CurrentHealth <= 0) {
-            rb.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            gameObject.SetActive(false);
-            GameObject soulEffect = Instantiate(DeadBody, transform.position, Quaternion.identity);
-            Destroy(soulEffect, 5f);
-
-            IsPlayerDead = true;
-
-            Invoke(nameof(Dead), 5f);
-            Dead();
+            ForceDeath();
         }
 
+    }
+
+    public void ForceDeath() {
+        rb.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        gameObject.SetActive(false);
+        GameObject soulEffect = Instantiate(DeadBody, transform.position, Quaternion.identity);
+        Destroy(soulEffect, 5f);
+
+        IsPlayerDead = true;
+
+        Invoke(nameof(Dead), 5f);
+        Dead();
     }
 
     private void Dead() {

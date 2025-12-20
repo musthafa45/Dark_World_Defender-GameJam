@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +14,6 @@ public class House : MonoBehaviour
     void Start()
     {
         CurrentHealth = MaxHealth;
-        Rigidbody = GetComponent<Rigidbody2D>();
         StartPos = transform.position;
     }
 
@@ -27,28 +24,21 @@ public class House : MonoBehaviour
         {
             transform.position = StartPos + UnityEngine.Random.insideUnitCircle * ShakeAmount;
         }
+    }
+    public void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Enemy")) {
+            IsShaking = true;
+            Destroy(collision.gameObject);
+            TakeDamage(1);
+            Invoke(nameof(StopShaking), 0.3f);
+        }
+        else if (collision.gameObject.CompareTag("HomingBullet")) {
+            IsShaking = true;
+            Destroy(collision.gameObject);
+            TakeDamage(1);
+        }
+    }
 
-        if(CurrentHealth <= 0)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
-        }
-    }
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            IsShaking = true;
-            Destroy(collision.gameObject);
-            TakeDamage(1);
-            Invoke("StopShaking", 0.3f);
-        }
-        else if(collision.gameObject.CompareTag("HomingBullet"))
-        {
-            IsShaking = true;
-            Destroy(collision.gameObject);
-            TakeDamage(1);
-        }
-    }
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -56,7 +46,7 @@ public class House : MonoBehaviour
             IsShaking = true;
             Destroy(collision.gameObject);
             TakeDamage(1);
-            Invoke("StopShaking", 0.3f);
+            Invoke(nameof(StopShaking), 0.3f);
         }
         else if (collision.gameObject.CompareTag("HomingBullet"))
         {
@@ -64,7 +54,9 @@ public class House : MonoBehaviour
             Destroy(collision.gameObject);
             TakeDamage(1);
         }
+
     }
+
     void StopShaking()
     {
         IsShaking = false;
@@ -72,9 +64,14 @@ public class House : MonoBehaviour
 ;    }
     public void TakeDamage(int Damage)
     {
-        
         CurrentHealth -= Damage;
 
+        CheckDeath();
+    }
 
+    private void CheckDeath() {
+        if (CurrentHealth <= 0) {
+            PlayerMovements.Instance.ForceDeath();
+        }
     }
 }
