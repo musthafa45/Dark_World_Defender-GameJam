@@ -12,18 +12,6 @@ public class PlayerAttack : MonoBehaviour
     public AudioSource PlayerAudio;
     public AudioClip PlayerPickGun;
     public AudioClip HomingHurt;
-
-    public int AmmoToAdd;
-    
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
-    }
     
     void OnCollisionEnter2D(Collision2D collision)
     {

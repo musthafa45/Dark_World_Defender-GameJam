@@ -9,7 +9,6 @@ public class AKM: MonoBehaviour
     public int MaxAmmo;
     
     //Bullet
-    public float OffSet;
     public GameObject Bullet;
     public Transform ShotPoint;
 
@@ -25,64 +24,63 @@ public class AKM: MonoBehaviour
     public AudioClip PlayerAkmShotClip;
     public AudioClip OutOfAmmoClip;
 
-    public SpriteRenderer Gun;
-    //[SerializeField]Transform Gun;
-    //public float Gun_OffSet ;
-    //Vector3 StartingSize;
-    //Vector3 ArmStartingSize;
-    public PlayerMovements playerMovements;
-    public static bool isRight;
+    private Vector3 difference;
+
     private void Start()
     {
         CurrentAmmo = MaxAmmo;
-        Gun = GetComponent<SpriteRenderer>();
-        playerMovements = GetComponent<PlayerMovements>();  
-
     }
     private void Update()
     {
-        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        
         float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + OffSet);
 
-        if(rotationZ < 89f && rotationZ > -89)//Flipping Gun
-        {
-            Gun.flipY = false;
-            isRight = true;
-        }
-        else
-        {
-            Gun.flipY = true;
-            isRight = false;
+        if(difference.x > 0){ //Right side on Cursor
+            transform.rotation = Quaternion.Euler(0f, 0f, rotationZ /*+ OffSet*/);
         }
        
+        if (difference.x < 0) { //Leftside mouse point
+            transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + 180);
+        }
+
         Ammotext.text = CurrentAmmo.ToString();
 
-        if (TimeBtwShots <= 0)
-            {
-                if (Input.GetMouseButtonDown(0) && CurrentAmmo > 0)
-                {
-                    PlayerAudio.PlayOneShot(PlayerAkmShotClip);
-                    Shoot();
-                    TimeBtwShots = StartBtwShot;
-                    CurrentAmmo--;
-                    Ammotext.text = CurrentAmmo.ToString();
-                }
+        if (TimeBtwShots <= 0) {
+
+            if (Input.GetMouseButtonDown(0) && CurrentAmmo > 0) {
+
+                PlayerAudio.PlayOneShot(PlayerAkmShotClip);
+
+                Shoot();
+
+                TimeBtwShots = StartBtwShot;
+                CurrentAmmo--;
+
+                Ammotext.text = CurrentAmmo.ToString();
             }
-            else
-            {
-                TimeBtwShots -= Time.deltaTime;
+
+            if(Input.GetMouseButtonDown(0) && CurrentAmmo <= 0) {
+                PlayerAudio.PlayOneShot(OutOfAmmoClip);
             }
-        if(Input.GetMouseButtonDown(0) && CurrentAmmo <= 0)
-        {
-            PlayerAudio.PlayOneShot(OutOfAmmoClip);
+
         }
+        else {
+            TimeBtwShots -= Time.deltaTime;
+        }
+
     }
  
     void Shoot()
     {
         GameObject BulletIns = Instantiate(Bullet, ShotPoint.position, ShotPoint.rotation);
-        BulletIns.GetComponent<Rigidbody2D>().AddForce(BulletIns.transform.right * bulletSpeed);
+        if(difference.x > 0) {
+            BulletIns.GetComponent<Rigidbody2D>().AddForce(ShotPoint.transform.right * bulletSpeed);
+        }
+        else if (difference.x < 0) {
+            BulletIns.GetComponent<Rigidbody2D>().AddForce(-ShotPoint.transform.right * bulletSpeed);
+        }
+        
     }
     
 }

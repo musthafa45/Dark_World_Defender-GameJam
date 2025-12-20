@@ -8,7 +8,6 @@ public class PlayerMovements : MonoBehaviour
     private float horizontal;
     private float speed = 5f;
     private float jumpingPower = 12f;
-    private bool isFacingRight = true;
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -30,6 +29,7 @@ public class PlayerMovements : MonoBehaviour
     PlayerAttack playerAttack;
 
     public bool IsPlayerDead = false;
+    private float mouseDelta;
 
     private void Awake() {
         Instance = this;
@@ -45,7 +45,11 @@ public class PlayerMovements : MonoBehaviour
     }
     void Update()
     {
+        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        mouseDelta = difference.x;
+
         horizontal = Input.GetAxisRaw("Horizontal");
+        
 
         if (horizontal == 0)
         {
@@ -74,15 +78,9 @@ public class PlayerMovements : MonoBehaviour
         else if (rb.linearVelocity.y <= 7)
         {
             isGrounded = true;
-
-        }
-        if (AKM.isRight == false)
-        {
-            Flip();
         }
 
         Flip();
-
     }
    
     private void FixedUpdate()
@@ -97,14 +95,22 @@ public class PlayerMovements : MonoBehaviour
 
     public void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        if (horizontal > 0) //facing right
         {
-            isFacingRight = !isFacingRight;
-            //Vector3 localScale = transform.localScale;
-            //localScale.x *= -1f;
-            //transform.localScale = localScale;
-            transform.Rotate(0f, 180f, 0f);
+            transform.localScale = new Vector2(0.25f, transform.localScale.y);
         }
+        else if(horizontal < 0) { //facing left
+
+            transform.localScale = new Vector2(-0.25f, transform.localScale.y);
+        }
+
+        if (mouseDelta > 0) {// mouse On right side
+            transform.localScale = new Vector2(0.25f, transform.localScale.y);
+        }
+        else if(mouseDelta < 0) { // mouse On left side
+            transform.localScale = new Vector2(-0.25f, transform.localScale.y);
+        }
+        
     }
     public void PlayAttackAnim()
     {

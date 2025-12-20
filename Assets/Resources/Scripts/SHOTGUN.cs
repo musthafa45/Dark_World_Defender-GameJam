@@ -6,9 +6,7 @@ public class SHOTGUN : MonoBehaviour
 {
     public static int CurrentAmmo;
     public int MaxAmmo;
-    public int ReloadAmmo;
 
-    public float OffSet;
     public GameObject Bullet;
     public Transform ShotPoint;
 
@@ -21,34 +19,27 @@ public class SHOTGUN : MonoBehaviour
     public AudioSource PlayerAudio;
     public AudioClip PlayerShotGunShotClip;
     public AudioClip OutOfAmmoClip;
-    public static bool isRight;
 
-    public SpriteRenderer ShotGun;
-    public PlayerMovements playerMovements;
+    private Vector3 difference;
+
     private void Start()
     {
         CurrentAmmo = MaxAmmo;
-        ShotGun = GetComponent<SpriteRenderer>();
-        playerMovements = GetComponent<PlayerMovements>();
     }
     private void Update()
     {
-        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + OffSet);
+        difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
-        if (rotationZ < 89f && rotationZ > -89)
-        {
-            Debug.Log("Right");
-            ShotGun.flipY = false;
-            isRight = true;
+        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+
+        if (difference.x > 0) { //Right side on Cursor
+            transform.rotation = Quaternion.Euler(0f, 0f, rotationZ /*+ OffSet*/);
         }
-        else
-        {
-            Debug.Log("Left");
-            ShotGun.flipY = true;
-            isRight = false;
+
+        if (difference.x < 0) { //Leftside mouse point
+            transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + 180);
         }
+
         Ammotext.text = CurrentAmmo.ToString();
         if (TimeBtwShots <= 0)
         {
@@ -70,15 +61,16 @@ public class SHOTGUN : MonoBehaviour
             PlayerAudio.PlayOneShot(OutOfAmmoClip);
         }
     }
-  
-
-
-
 
     void Shoot()
     {
         GameObject BulletIns = Instantiate(Bullet, ShotPoint.position, ShotPoint.rotation);
-        BulletIns.GetComponent<Rigidbody2D>().AddForce(BulletIns.transform.right * bulletSpeed);
+        if (difference.x > 0) {
+            BulletIns.GetComponent<Rigidbody2D>().AddForce(ShotPoint.transform.right * bulletSpeed);
+        }
+        else if (difference.x < 0) {
+            BulletIns.GetComponent<Rigidbody2D>().AddForce(-ShotPoint.transform.right * bulletSpeed);
+        }
     }
 
 }

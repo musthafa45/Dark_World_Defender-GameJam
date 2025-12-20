@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AmmoSpawner : MonoBehaviour
@@ -14,11 +13,6 @@ public class AmmoSpawner : MonoBehaviour
         StartCoroutine(WeoponSpawning());
     }
 
-
-    void Update()
-    {
-
-    }
     IEnumerator WeoponSpawning()
     {
         while (true)

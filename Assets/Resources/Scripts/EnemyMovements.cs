@@ -65,18 +65,6 @@ public class EnemyMovements : MonoBehaviour,IHealth
                 TryAttackPlayer(playerMovements);
             }
         }
-
-        //if (collision.gameObject.CompareTag("Bullet")) {
-        //    Destroy(collision.gameObject);
-        //    TakeDamage(1);
-        //}
-        //else if (collision.gameObject.CompareTag("ShotGunBullet")) {
-        //    Destroy(collision.gameObject);
-        //    TakeDamage(3);
-        //}
-        //else if (collision.gameObject.CompareTag("AttackBox")) {
-        //    TakeDamage(1);
-        //}
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
@@ -86,18 +74,6 @@ public class EnemyMovements : MonoBehaviour,IHealth
                 TryAttackPlayer(playerMovements);
             }
         }
-
-        //if (collision.gameObject.CompareTag("Bullet")) {
-        //    Destroy(collision.gameObject);
-        //    TakeDamage(1);
-        //}
-        //else if (collision.gameObject.CompareTag("ShotGunBullet")) {
-        //    Destroy(collision.gameObject);
-        //    TakeDamage(3);
-        //}
-        //else if (collision.gameObject.CompareTag("AttackBox")) {
-        //    TakeDamage(1);
-        //}
 
     }
 

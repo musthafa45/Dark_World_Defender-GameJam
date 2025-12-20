@@ -6,7 +6,6 @@ public class BossEnemyMovements : MonoBehaviour,IHealth
 {
 
     [SerializeField] float moveSpeed;
-    Transform player;
     [SerializeField] private Animator EnemyAnim;
     [SerializeField] private Rigidbody2D BossEnemyRb;
     [SerializeField] float LineOffSite;
@@ -15,6 +14,7 @@ public class BossEnemyMovements : MonoBehaviour,IHealth
     public GameObject BulletParent;
     public float FireRate = 1f;
     private float NextShoot;
+    private PlayerMovements player;
     public int Health;
     [SerializeField] Transform House;
     public GameObject AttackBlood;
@@ -27,7 +27,7 @@ public class BossEnemyMovements : MonoBehaviour,IHealth
     {
         BossEnemyRb = GetComponent<Rigidbody2D>();
         EnemyAnim = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = PlayerMovements.Instance;
         House = GameObject.FindGameObjectWithTag("House").transform;
 
     }
@@ -35,27 +35,26 @@ public class BossEnemyMovements : MonoBehaviour,IHealth
    
     void Update()
     {
-        float DistanceFromPlayer = Vector2.Distance(player.position, transform.position);
+        if (player != null && !player.IsPlayerDead) {
+            float DistanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
 
-        if (DistanceFromPlayer < LineOffSite && DistanceFromPlayer > ShootingRange)
-        {
-            transform.position = Vector2.MoveTowards(this.transform.position, player.position, moveSpeed * Time.deltaTime);
-        }
-        else if (DistanceFromPlayer <= ShootingRange && NextShoot < Time.time)
-        {
-            Instantiate(Bullet, BulletParent.transform.position, Quaternion.identity);
-            NextShoot = Time.time + FireRate;
-        }
-        else
-        {
-            transform.position = Vector2.MoveTowards(this.transform.position, House.position, moveSpeed * Time.deltaTime);
+            if (DistanceFromPlayer < LineOffSite && DistanceFromPlayer > ShootingRange) {
+                transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            }
+            else if (DistanceFromPlayer <= ShootingRange && NextShoot < Time.time) {
+                Instantiate(Bullet, BulletParent.transform.position, Quaternion.identity);
+                NextShoot = Time.time + FireRate;
+            }
+            else {
+                transform.position = Vector2.MoveTowards(this.transform.position, House.position, moveSpeed * Time.deltaTime);
+            }
+
         }
 
-        if (Health < 0)
-        {
+        if (Health < 0) {
             Instantiate(BloodStick, transform.position, Quaternion.identity);
-            Destroy(gameObject);
             Instantiate(Rip, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
     public void OnTriggerEnter2D(Collider2D collision)

@@ -13,7 +13,7 @@ public class FlyEnemyAi : MonoBehaviour,IHealth
     public float FireRate = 1f;
     private float NextShoot;
 
-    [SerializeField] Transform player;
+    private PlayerMovements player;
     [SerializeField] Transform House;
     [SerializeField] private Animator EnemyAnim;
 
@@ -27,7 +27,7 @@ public class FlyEnemyAi : MonoBehaviour,IHealth
     public AudioClip HurtClip;
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = PlayerMovements.Instance;
         House = GameObject.FindGameObjectWithTag("House").transform;
         EnemyAnim = GetComponent<Animator>();
         EnemyRb = GetComponent<Rigidbody2D>();
@@ -37,28 +37,29 @@ public class FlyEnemyAi : MonoBehaviour,IHealth
     // Update is called once per frame
     void Update()
     {
-       
-        float DistanceFromPlayer = Vector2.Distance(player.position, transform.position);
+        
+        if(player != null && !player.IsPlayerDead) {
+            float DistanceFromPlayer = Vector2.Distance(player.transform.position, transform.position);
 
-        if (DistanceFromPlayer < LineOffSite && DistanceFromPlayer > ShootingRange)
-        {
-            transform.position =Vector2.MoveTowards(this.transform.position,player.position,moveSpeed * Time.deltaTime);
+            if (DistanceFromPlayer < LineOffSite && DistanceFromPlayer > ShootingRange) {
+                transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            }
+            else if (DistanceFromPlayer <= ShootingRange && NextShoot < Time.time) {
+                Instantiate(Bullet, BulletParent.transform.position, Quaternion.identity);
+                NextShoot = Time.time + FireRate;
+            }
+            else {
+                transform.position = Vector2.MoveTowards(this.transform.position, House.position, moveSpeed * Time.deltaTime);
+            }
         }
-        else if(DistanceFromPlayer <= ShootingRange && NextShoot < Time.time)
-        {
-            Instantiate(Bullet, BulletParent.transform.position, Quaternion.identity);
-            NextShoot = Time.time + FireRate;
-        }
-        else
-        {
-            transform.position = Vector2.MoveTowards(this.transform.position, House.position, moveSpeed * Time.deltaTime);
-        }
+     
+        
 
-        if (Health < 0)
+        if (Health <= 0)
         {
             Instantiate(BloodStick, transform.position, Quaternion.identity);
-            Destroy(gameObject);
             Instantiate(Rip, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
     private void OnDrawGizmosSelected()
