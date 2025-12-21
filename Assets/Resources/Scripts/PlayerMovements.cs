@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMovements : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class PlayerMovements : MonoBehaviour
     public AudioSource BulletAudio;
     public AudioClip HurtClip;
 
-    PlayerAttack playerAttack;
+    public BatScript Bat;
 
     public bool IsPlayerDead = false;
     private float mouseDelta;
@@ -37,7 +38,6 @@ public class PlayerMovements : MonoBehaviour
 
     private void Start()
     {
-        playerAttack = GetComponent<PlayerAttack>();
         CurrentHealth = MaxHealth;
         rb = GetComponent<Rigidbody2D>();
         PlayerAnim = GetComponent<Animator>();
@@ -112,10 +112,7 @@ public class PlayerMovements : MonoBehaviour
         }
         
     }
-    public void PlayAttackAnim()
-    {
-        PlayerAnim.Play("Attack1");
-    }
+
     public void TakeDamage(int Damage)
     {
         BulletAudio.PlayOneShot(HurtClip);
