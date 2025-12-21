@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class AKM: MonoBehaviour
 {
-    //Ammo
-    public static int CurrentAmmo;
-    public int MaxAmmo;
-    
     //Bullet
     public GameObject Bullet;
     public Transform ShotPoint;
@@ -16,8 +10,6 @@ public class AKM: MonoBehaviour
     private float TimeBtwShots;
     public float StartBtwShot;
     public float bulletSpeed;
-    //Ammo Text
-    public Text Ammotext;
 
     //Audio
     public AudioSource PlayerAudio;
@@ -26,10 +18,6 @@ public class AKM: MonoBehaviour
 
     private Vector3 difference;
 
-    private void Start()
-    {
-        CurrentAmmo = MaxAmmo;
-    }
     private void Update()
     {
         difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -44,23 +32,19 @@ public class AKM: MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + 180);
         }
 
-        Ammotext.text = CurrentAmmo.ToString();
-
         if (TimeBtwShots <= 0) {
 
-            if (Input.GetMouseButtonDown(0) && CurrentAmmo > 0) {
+            if (Input.GetMouseButton(0) && AmmoManager.Instance.GetAkmAmmoCount() > 0) {
 
                 PlayerAudio.PlayOneShot(PlayerAkmShotClip);
 
                 Shoot();
 
                 TimeBtwShots = StartBtwShot;
-                CurrentAmmo--;
-
-                Ammotext.text = CurrentAmmo.ToString();
+                AmmoManager.Instance.TryUseAkmAmmo(1);
             }
 
-            if(Input.GetMouseButtonDown(0) && CurrentAmmo <= 0) {
+            if(Input.GetMouseButtonDown(0) && AmmoManager.Instance.GetAkmAmmoCount() <= 0) {
                 PlayerAudio.PlayOneShot(OutOfAmmoClip);
             }
 

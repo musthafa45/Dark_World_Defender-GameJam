@@ -7,23 +7,13 @@ public class ShotGunMag : MonoBehaviour
     public int ShotGunAmmoToAdd;
     public AudioSource AmmoSource;
     public AudioClip Reload;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag.Equals("Player"))
+        if (col.gameObject.CompareTag("Player"))
         {
             AmmoSource.PlayOneShot(Reload);
-            SHOTGUN.CurrentAmmo += ShotGunAmmoToAdd;
+            AmmoManager.Instance.AddShotgunAmmo(ShotGunAmmoToAdd);
             Destroy(gameObject);
         }
     }

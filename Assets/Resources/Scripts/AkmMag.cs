@@ -5,23 +5,14 @@ public class AkmMag : MonoBehaviour
     public int AkmAmmoToAdd;
     public AudioSource AmmoSource;
     public AudioClip Reload;
-    void Start()
-    {
-       
-    }
 
-    
-    void Update()
-    {
-        
-    }
    
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag.Equals("Player"))
+        if (col.gameObject.CompareTag("Player"))
         {
             AmmoSource.PlayOneShot(Reload);
-            AKM.CurrentAmmo += AkmAmmoToAdd;
+            AmmoManager.Instance.AddAkmAmmo(AkmAmmoToAdd);
             Destroy(gameObject);
         }
     }

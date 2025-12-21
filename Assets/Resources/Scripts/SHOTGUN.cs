@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class SHOTGUN : MonoBehaviour
 {
-    public static int CurrentAmmo;
-    public int MaxAmmo;
-
     public GameObject Bullet;
     public Transform ShotPoint;
 
@@ -14,18 +9,13 @@ public class SHOTGUN : MonoBehaviour
     public float StartBtwShot;
     public float bulletSpeed;
 
-    public Text Ammotext;
-
     public AudioSource PlayerAudio;
     public AudioClip PlayerShotGunShotClip;
     public AudioClip OutOfAmmoClip;
 
     private Vector3 difference;
 
-    private void Start()
-    {
-        CurrentAmmo = MaxAmmo;
-    }
+
     private void Update()
     {
         difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -40,23 +30,21 @@ public class SHOTGUN : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, rotationZ + 180);
         }
 
-        Ammotext.text = CurrentAmmo.ToString();
         if (TimeBtwShots <= 0)
         {
-            if (Input.GetMouseButtonDown(0) && CurrentAmmo > 0)
+            if (Input.GetMouseButtonDown(0) && AmmoManager.Instance.GetShotgunAmmoCount() > 0)
             {
                 PlayerAudio.PlayOneShot(PlayerShotGunShotClip);
                 Shoot();
                 TimeBtwShots = StartBtwShot;
-                CurrentAmmo--;
-                Ammotext.text = CurrentAmmo.ToString();
+                AmmoManager.Instance.TryUseShotgunAmmo(1);
             }
         }
         else
         {
             TimeBtwShots -= Time.deltaTime;
         }
-        if (Input.GetMouseButtonDown(0) && CurrentAmmo <= 0)
+        if (Input.GetMouseButtonDown(0) && AmmoManager.Instance.GetShotgunAmmoCount() <= 0)
         {
             PlayerAudio.PlayOneShot(OutOfAmmoClip);
         }
